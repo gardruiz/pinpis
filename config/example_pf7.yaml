@@ -1,0 +1,64 @@
+project:
+  name: pf7_africa_asia
+  output_dir: results
+  work_dir: variants
+  tmp_dir: tmp
+
+inputs:
+  vcf: /home/gardruiz/data/variants/Pf3D7_filtered.vcf.gz
+  gff: /home/gardruiz/PlasmoGlobalEvo/Genome/Pfalciparum_replace_Pf3D7_MIT_v3_with_Pf_M76611.gff
+  reference_genome: /home/gardruiz/PlasmoGlobalEvo/Genome/Pfalciparum.genome.fasta
+  samples_id_file: /home/gardruiz/PlasmoGlobalEvo/Samples/Pf7_samples.txt
+  sample_years_file: /home/gardruiz/PlasmoGlobalEvo/Config/Sample_years.txt
+  gene_list: /home/gardruiz/PlasmoGlobalEvo/Genome/Genes/genes_ids/test_working_gene_ids.txt
+
+
+sampling:
+  number_of_samples: 50
+  samples_file_dir: Samples/SamplesID/
+  groups:
+    - name: Africa
+      population_file: /home/gardruiz/PlasmoGlobalEvo/Config/country_list_africa.txt
+      output_dir: Samples/SamplesID/Africa
+    - name: Asia
+      population_file: /home/gardruiz/PlasmoGlobalEvo/Config/country_list_asia.txt
+      output_dir: Samples/SamplesID/Asia
+
+annotation:
+  use_gene_name: false
+
+pipelines:
+  - dnds
+
+dnds:
+  include_between_groups: true
+
+pmk:
+  enabled: false
+
+external:
+  python: python3.8
+  bcftools: bcftools
+  samtools: samtools
+  tabix: tabix
+  bgzip: bgzip
+  yn00: yn00
+  parallel: parallel
+
+parallel:
+  workers: 10
+
+variant_sites:
+  write_country_qc: false
+
+
+legacy:
+  scripts_dir: scripts/legacy
+
+steps:
+  sampling: true
+  vcf_cutting: true
+  cds_extraction: true
+  dnds_estimation: true
+  variant_site_counting: true
+  final_table: true

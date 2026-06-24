@@ -1,0 +1,120 @@
+# Python/cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.env
+.venv/
+env/
+venv/
+
+# Runtime outputs
+results/
+results_*/
+variants/
+variants_*/
+tmp/
+tmp_*/
+logs/
+*.log
+*.nohup.log
+*.pid
+nohup.out
+
+# Local large/project data
+Genome/
+Samples/
+
+# QC/generated reports and temporary analysis outputs
+cds_qc*/
+cds_*.tsv
+old_vs_new_*.tsv
+*_summary.tsv
+*_wide.tsv
+*_status*.tsv
+*_integrity*.tsv
+*_completion*.tsv
+*_completeness*.tsv
+*_overlap*.tsv
+
+# Generated gene lists / audit lists
+genes_*.txt
+missing_gene_dirs_in_variants.txt
+genes_without_vcfs_in_variants.txt
+empty_dnds_files.txt
+new_only_*.txt
+old_only_*.txt
+code_files_to_search.txt
+
+# One-off audit/analysis scripts
+audit_*.py
+compare_*.py
+count_cds_by_country_continent.py
+check_cds_integrity.py
+clean_corrected_pinpis_results.py
+summarize_qc_passed_dnds.py
+
+# Local run scripts
+run_*_dnds.sh
+run_*_cds.sh
+run_recovery*.sh
+
+# Genomics/alignment/intermediate files
+*.vcf
+*.vcf.gz
+*.bcf
+*.bam
+*.bai
+*.cram
+*.crai
+*.fastq
+*.fq
+*.fasta
+*.fa
+*.fai
+*.phy
+
+# PAML/temp outputs
+*.ctl
+*.out
+
+# Archives/compressed outputs
+*.gz
+*.zip
+*.tar
+*.tar.gz
+
+# Local configs
+config/local/
+config/local*.yaml
+config/recovery*.yaml
+config/*remaining*.yaml
+config/*dnds*.yaml
+config/*all_nuclear*.yaml
+
+# OS/editor
+.DS_Store
+*~
+*.swp
+
+# Local/recovery/final-run configs
+config/all_nuclear_remaining*.yaml
+config/final_summary*.yaml
+config/recover_missing.yaml
+config/recovery*.yaml
+
+# Legacy control-file config, replaced by YAML workflow
+config/control_file.txt
+Config/control_file.txt
+
+# Vim swap files
+*.swp
+*.swo
+*.swn
+.*.swp
+.*.swo
+.*.swn

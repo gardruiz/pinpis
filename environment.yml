@@ -1,0 +1,20 @@
+name: pinpis
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.8
+  - bcftools=1.21
+  - samtools
+  - htslib
+  - tabix
+  - paml
+  - parallel
+  - biopython>=1.80
+  - pandas>=1.5
+  - pyyaml>=6.0
+  - pip
+  - pip:
+      - -e .
