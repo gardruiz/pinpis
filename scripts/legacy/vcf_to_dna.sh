@@ -61,17 +61,29 @@ for sample in "${samples[@]}"; do
   fa_out="$output_dir/${sample}.fa"
   fas_out="$output_dir/${sample}.fas"
 
+  
   tmp_consensus_full="$(mktemp -p tmp cons_full_XXXXXX.fa)"
-  if "$BCFTOOLS_BIN" consensus -H A --mark-ins lc --mark-del '*' -s "$sample" -f "$reference" "$vcf" > "$tmp_consensus_full"; then
-    if ! "$SAMTOOLS_BIN" faidx "$tmp_consensus_full" "$genomic_region" > "$fa_out" 2>/dev/null; then
-      ref_seq=$(grep -v '^>' "$region_fa" | tr -d '\r\n' | tr 'acgtn' 'ACGTN')
-      { printf ">%s\n" "$sample"; printf "%s\n" "$ref_seq"; } > "$fa_out"
-    fi
-  else
-    ref_seq=$(grep -v '^>' "$region_fa" | tr -d '\r\n' | tr 'acgtn' 'ACGTN')
-    { printf ">%s\n" "$sample"; printf "%s\n" "$ref_seq"; } > "$fa_out"
+
+  # Generate consensus sequence
+  if ! "$BCFTOOLS_BIN" consensus -H A --mark-ins lc --mark-del '*' \
+      -s "$sample" -f "$reference" "$vcf" > "$tmp_consensus_full"; then
+
+    echo "[ERROR] Consensus reconstruction failed: sample=$sample region=$genomic_region" >&2
+    rm -f "$tmp_consensus_full" "$fa_out" "$fas_out"
+    exit 1
   fi
-  rm -f "$tmp_consensus_full" "$tmp_consensus_full.fai" 2>/dev/null || true
+
+  # Extract genomic region
+  if ! "$SAMTOOLS_BIN" faidx "$tmp_consensus_full" "$genomic_region" > "$fa_out"; then
+
+    echo "[ERROR] Region extraction failed: sample=$sample region=$genomic_region" >&2
+    rm -f "$tmp_consensus_full" "$tmp_consensus_full.fai" "$fa_out" "$fas_out"
+    exit 1
+  fi
+
+  # Clean up temporary files
+  rm -f "$tmp_consensus_full" "$tmp_consensus_full.fai"
+
 
   if head -n1 "$fa_out" | grep -q '^>'; then
     sed -i "1s|^>.*$|>$sample|" "$fa_out"
