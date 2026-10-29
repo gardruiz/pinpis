@@ -16,7 +16,7 @@ bed_file="$3"
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-REFERENCE_GENOME="${REFERENCE_GENOME:-Genome/Pfalciparum.genome.fasta}"
+REFERENCE_GENOME="$REFERENCE_GENOME"
 BCFTOOLS_BIN="${BCFTOOLS_BIN:-bcftools}"
 BGZIP_BIN="${BGZIP_BIN:-bgzip}"
 TABIX_BIN="${TABIX_BIN:-tabix}"

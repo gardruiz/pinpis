@@ -3,7 +3,6 @@ import yaml
 from typing import Union
 
 
-
 class ConfigError(Exception):
     pass
 
@@ -57,6 +56,28 @@ def validate_config(config: dict) -> None:
 
     for path in required_paths:
         require(config, path)
+    
+    # Validate input files
+    input_files = [
+        "inputs.vcf",
+        "inputs.gff",
+        "inputs.reference_genome",
+    ]
+
+    for key in input_files:
+        value = require(config, key)
+
+        if not isinstance(value, str) or not value.strip():
+            raise ConfigError(
+                f"Missing or empty input file path: {key}"
+            )
+
+        file_path = Path(value).expanduser()
+
+        if not file_path.is_file():
+            raise ConfigError(
+                f"Input file not found: {key} = {file_path}"
+            )
 
     groups = require(config, "sampling.groups")
     if not isinstance(groups, list) or len(groups) < 2:

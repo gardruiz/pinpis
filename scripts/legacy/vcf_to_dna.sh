@@ -13,7 +13,7 @@ if [ "$#" -ne 2 ]; then
   exit 1
 fi
 
-reference="${REFERENCE_GENOME:-Genome/Pfalciparum.genome.fasta}"
+reference="$REFERENCE_GENOME"
 
 BCFTOOLS_BIN="${BCFTOOLS_BIN:-bcftools}"
 SAMTOOLS_BIN="${SAMTOOLS_BIN:-samtools}"
